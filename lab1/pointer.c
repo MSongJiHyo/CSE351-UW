@@ -80,25 +80,34 @@ INTEGER CODING RULES:
 /*
  * Return the size of an integer in bytes.
  */
-int intSize() {
-  int intArray[10];
-  int * intPtr1;
-  int * intPtr2;
-  // TODO: Write code to compute size of an integer.
-
-  return 2;
-}
+ int intSize() {
+	 int intArray[10];
+	 int * intPtr1 = &intArray[0];
+	 int * intPtr2 = &intArray[1];
+	 // TODO: Write code to compute size of an integer.
+	 int ptr1 = intPtr1;
+	 int ptr2 = intPtr2;
+	 int result;
+	 result = ptr2 - ptr1;
+	 return result;
+ }
 
 /*
  * Return the size of a double in bytes.
  */
-int doubleSize() {
+double doubleSize() {
   double doubArray[10];
   double * doubPtr1;
   double * doubPtr2;
   // TODO: Write code to compute size of a double.
-
-  return 2;
+  doubPtr1 = &doubArray[0];
+  doubPtr2 = &doubArray[1];
+  // TODO: Write code to compute size of an integer.
+  int ptr1 = doubPtr1;
+  int ptr2 = doubPtr2;
+  int result;
+  result = ptr2 - ptr1;
+  return result;
 }
 
 /*
@@ -109,8 +118,12 @@ int pointerSize() {
   double ** ptrPtr1;
   double ** ptrPtr2;
   // TODO: Write code to compute size of a pointer.
+  ptrPtr1 = &ptrArray[0];
+  ptrPtr2 = &ptrArray[1];
+  int ptr1 = ptrPtr1;
+  int ptr2 = ptrPtr2;
 
-  return 2;
+  return ptr2-ptr1;
 }
 
 /*
@@ -123,7 +136,8 @@ int changeValue() {
   int * intPtr2;
   // TODO: Write code to change value of intArray[5] to 351 using only
   //       intPtr1 and the + operator.
-
+  intPtr2 = intPtr1 + 5;
+  *intPtr2 = 351;
   return intArray[5];
 }
 
@@ -135,8 +149,11 @@ int changeValue() {
  * Operators / and % and loops are NOT allowed.
  */
 int withinSameBlock(int * ptr1, int * ptr2) {
-  // TODO
-  return 2;
+	int intPtr1 = ptr1;
+	int intPtr2 =ptr2;
+	int same;
+	same = ((intPtr1 >> 6) == (intPtr2 >> 6));
+	return same;
 }
 
 /*
@@ -145,7 +162,14 @@ int withinSameBlock(int * ptr1, int * ptr2) {
  */
 int withinArray(int * intArray, int size, int * ptr) {
   // TODO
-  return 2;
+	int min = intArray;
+	int temp = intArray + size;
+	int max = temp-1;
+	int p = ptr;
+	int submin = ((p - min)>>31)&1;// out of the low range
+	int submax = ((max - p) >> 31) & 1;//out of the up range
+	
+  return !(submin|submax);// 
 }
 /*
  * Return x with the n bits that begin at position p inverted (i.e.,
@@ -154,5 +178,8 @@ int withinArray(int * intArray, int size, int * ptr) {
  */
 int invert(int x, int p, int n) {
   // TODO
-  return 2;
+	int head = ((1 << 31) >> (32-p-n-1));//(（head mid tail)->(1111..000...111))^(~x)
+	int tail = ~((1 << 31) >> (32-p-1));
+	int result = (head + tail) ^ (~x);
+  return result;
 }
